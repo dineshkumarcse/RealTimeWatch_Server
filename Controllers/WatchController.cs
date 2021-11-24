@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using RealTimeCharts_Server.HubConfig;
 using RealTimeWatch_Server.DataStorage;
-using RealTimeWatch_Server.HubConfig;
 using RealTimeWatch_Server.TimerFeatures;
 
 namespace RealTimeWatch_Server.Controllers
@@ -15,18 +15,18 @@ namespace RealTimeWatch_Server.Controllers
     [ApiController]
     public class WatchController : ControllerBase
     {
-        private IHubContext<WatchHub> _hub; 
+        private IHubContext<WatchHub> _hub;
 
-        public WatchController(IHubContext<WatchHub> hub) 
-        { 
+        public WatchController(IHubContext<WatchHub> hub)
+        {
             _hub = hub;
         }
 
         public IActionResult Get()
-        { 
-            var timerManager = new TimerManager(() => _hub.Clients.All.SendAsync("WatchData", WatchManager.GetData())); 
-            
-            return Ok(new { Message = WatchManager.GetData()+"Request Completed" }); 
+        {
+            var timerManager = new TimerManager(() => _hub.Clients.All.SendAsync("WatchData", WatchManager.GetData()));
+
+            return Ok(new { Message = WatchManager.GetData() + "Request Completed" });
         }
 
         [Route("Start")]
